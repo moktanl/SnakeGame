@@ -7,7 +7,7 @@ namespace SnakeGame
 {
     public partial class Form1 : Form
     {
-        // GAME VARIABLES
+        
         private List<Point> snake = new List<Point>();
         private Point food;
         private string direction = "Right";
@@ -16,26 +16,26 @@ namespace SnakeGame
         private System.Windows.Forms.Timer gameTimer = new System.Windows.Forms.Timer();
         private Random random = new Random();
 
-        // PAUSE STATE
+        
         private bool isPaused = false;
 
-        // Colors
+        
         private Color lcdBackground = Color.FromArgb(170, 190, 70);
         private Color pixelColor = Color.FromArgb(35, 55, 20);
 
-        // Game area
+        
         private const int cellSize = 15;
         private const int boardLeft = 30;
         private const int boardTop = 80;
         private const int boardWidth = 540;
         private const int boardHeight = 450;
 
-        // FORM CONSTRUCTOR
+    
         public Form1()
         {
             InitializeComponent();
 
-            // Form settings
+            
             this.Text = "Snake Game";
             this.ClientSize = new Size(600, 600);
 
@@ -45,23 +45,23 @@ namespace SnakeGame
             this.Paint -= Form1_Paint;
             this.Paint += Form1_Paint;
 
-            // Keyboard controls
+            
             this.KeyDown -= Form1_KeyDown;
             this.KeyDown += Form1_KeyDown;
 
-            // Timer
+            
             gameTimer.Interval = 130;
             gameTimer.Tick += GameTimer_Tick;
 
             StartGame();
         }
 
-        // START GAME
+    
         private void StartGame()
         {
             snake.Clear();
 
-            // Starting snake
+            
             snake.Add(new Point(255, 275));
             snake.Add(new Point(240, 275));
             snake.Add(new Point(225, 275));
@@ -80,7 +80,7 @@ namespace SnakeGame
             Invalidate();
         }
 
-        // CREATE FOOD
+        
         private void CreateFood()
         {
             int columns = boardWidth / cellSize;
@@ -99,7 +99,7 @@ namespace SnakeGame
             } while (snake.Contains(food));
         }
 
-        // GAME TIMER
+
         private void GameTimer_Tick(object sender, EventArgs e)
         {
             direction = nextDirection;
@@ -107,7 +107,7 @@ namespace SnakeGame
             Point head = snake[0];
             Point newHead = head;
 
-            // Move snake
+    
             if (direction == "Up")
             {
                 newHead.Y -= cellSize;
@@ -125,7 +125,7 @@ namespace SnakeGame
                 newHead.X += cellSize;
             }
 
-            // WALL COLLISION
+    
             if (newHead.X < boardLeft ||
                 newHead.X >= boardLeft + boardWidth ||
                 newHead.Y < boardTop ||
@@ -135,17 +135,17 @@ namespace SnakeGame
                 return;
             }
 
-            // BODY COLLISION
+            
             if (snake.Contains(newHead))
             {
                 GameOver();
                 return;
             }
 
-            // Add new head
+            
             snake.Insert(0, newHead);
 
-            // FOOD COLLISION
+    
             if (newHead == food)
             {
                 score++;
@@ -153,17 +153,17 @@ namespace SnakeGame
             }
             else
             {
-                // Remove tail
+                
                 snake.RemoveAt(snake.Count - 1);
             }
 
             Invalidate();
         }
 
-        // KEYBOARD CONTROLS
+        
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            // Toggle pause on Spacebar keypress
+            
             if (e.KeyCode == Keys.Space)
             {
                 TogglePause();
